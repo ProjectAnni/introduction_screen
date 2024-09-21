@@ -99,7 +99,7 @@ class IntroductionScreen extends StatefulWidget {
   /// If a custom Widget should be used instead of the default progress indicator
   ///
   /// @Default `null`
-  final Widget? customProgress;
+  final Widget Function(double, int)? customProgress;
 
   /// If the progress indicator should be display
   ///
@@ -679,7 +679,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                             flex: widget.dotsFlex,
                             child: Center(
                               child: widget.isProgress
-                                  ? widget.customProgress ??
+                                  ? widget.customProgress?.call(
+                                        _currentPage.toDouble(),
+                                        getPagesLength(),
+                                      ) ??
                                       Semantics(
                                         label:
                                             "Page ${getCurrentPage() + 1} of ${getPagesLength()}",
